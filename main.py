@@ -59,3 +59,20 @@ def afundados(frota: dict, tabuleiro: list) -> int:
                 n_afundados += 1
 
     return n_afundados
+
+
+def posicao_valida(frota: dict, linha: int, coluna: int, orientacao: str, tamanho: int) -> bool:   
+    posicoes_ocupadas = []
+    for i in frota.values():
+        for j in i:
+            for k in j:
+                posicoes_ocupadas.append(k)
+
+    posicao = define_posicoes(linha, coluna, orientacao, tamanho)
+    for i in posicao:
+        if i[0] >= 10 or i[1] >= 10:
+            return False
+    for i in posicao:
+        if i in posicoes_ocupadas:
+            return False
+    return True
