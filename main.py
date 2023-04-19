@@ -9,7 +9,18 @@ def define_posicoes(linha: int, coluna: int, orientacao: str, tamanho: int) -> l
 
     return posicao
 
+
 def preenche_frota(frota: dict, nome_navio: str, linha: int, coluna: int, orientacao: str, tamanho: int) -> dict:
-    frota.setdefault(nome_navio, []).append(define_posicoes(linha, coluna, orientacao, tamanho))
+    frota.setdefault(nome_navio, []).append(
+        define_posicoes(linha, coluna, orientacao, tamanho))
 
     return frota
+
+
+def faz_jogada(tabuleiro: list[list], linha: int, coluna: int) -> list[list]:
+    if tabuleiro[linha][coluna] == 1:
+        tabuleiro[linha][coluna] = 'X'
+    else:
+        tabuleiro[linha][coluna] = '-'
+
+    return tabuleiro
