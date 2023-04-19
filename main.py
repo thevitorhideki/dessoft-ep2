@@ -16,11 +16,30 @@ def preenche_frota(frota: dict, nome_navio: str, linha: int, coluna: int, orient
 
     return frota
 
-
 def faz_jogada(tabuleiro: list[list], linha: int, coluna: int) -> list[list]:
     if tabuleiro[linha][coluna] == 1:
         tabuleiro[linha][coluna] = 'X'
     else:
         tabuleiro[linha][coluna] = '-'
+
+    return tabuleiro
+
+def posiciona_frota (frota: dict) -> list:
+    tabuleiro = [
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0],
+  ]
+    for i in frota.values():
+        for j in i:
+            for k in j:
+                tabuleiro[k[0]][k[1]] = 1
 
     return tabuleiro
