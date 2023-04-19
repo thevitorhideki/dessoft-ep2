@@ -8,3 +8,8 @@ def define_posicoes(linha: int, coluna: int, orientacao: str, tamanho: int) -> l
             posicao.append([linha, coluna + i])
 
     return posicao
+
+def preenche_frota(frota: dict, nome_navio: str, linha: int, coluna: int, orientacao: str, tamanho: int) -> dict:
+    frota.setdefault(nome_navio, []).append(define_posicoes(linha, coluna, orientacao, tamanho))
+
+    return frota
