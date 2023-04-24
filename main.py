@@ -11,8 +11,7 @@ def define_posicoes(linha: int, coluna: int, orientacao: str, tamanho: int) -> l
 
 
 def preenche_frota(frota: dict, nome_navio: str, linha: int, coluna: int, orientacao: str, tamanho: int) -> dict:
-    frota.setdefault(nome_navio, []).append(
-        define_posicoes(linha, coluna, orientacao, tamanho))
+    frota.setdefault(nome_navio, []).append(define_posicoes(linha, coluna, orientacao, tamanho))
 
     return frota
 
@@ -61,7 +60,7 @@ def afundados(frota: dict, tabuleiro: list) -> int:
     return n_afundados
 
 
-def posicao_valida(frota: dict, linha: int, coluna: int, orientacao: str, tamanho: int) -> bool:   
+def posicao_valida(frota: dict, linha: int, coluna: int, orientacao: str, tamanho: int) -> bool:
     posicoes_ocupadas = []
     for i in frota.values():
         for j in i:
@@ -76,3 +75,36 @@ def posicao_valida(frota: dict, linha: int, coluna: int, orientacao: str, tamanh
         if i in posicoes_ocupadas:
             return False
     return True
+
+
+frota = {
+    "porta-aviões": [],
+    "navio-tanque": [],
+    "contratorpedeiro": [],
+    "submarino": [],
+}
+
+quantidade = {
+    "porta-aviões": 1,
+    "navio-tanque": 2,
+    "contratorpedeiro": 3,
+    "submarino": 4
+}
+for navio, qnt in quantidade.items():
+    count = 0
+    while count < qnt:
+        print(f'Insira as informações referentes ao navio {navio} que possui tamanho {5 - qnt}')
+        linha = int(input('Linha: '))
+        coluna = int(input('Coluna: '))
+        if navio != 'submarino':
+            orientacao = int(input('Orientação - [1] Vertical [2] Horizontal: '))
+            orientacao = 'vertical' if orientacao == 1 else 2
+        else:
+            orientacao = 1
+        if posicao_valida(frota, linha, coluna, orientacao, (5 - qnt)):
+            preenche_frota(frota, navio, linha, coluna, orientacao, (5 - qnt))
+            count += 1
+        else:
+            print('Esta posição não está válida!')
+
+print(frota)
