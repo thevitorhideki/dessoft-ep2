@@ -1,3 +1,6 @@
+from random import randint
+
+
 def define_posicoes(linha: int, coluna: int, orientacao: str, tamanho: int) -> list:
     posicao = []
 
@@ -11,7 +14,8 @@ def define_posicoes(linha: int, coluna: int, orientacao: str, tamanho: int) -> l
 
 
 def preenche_frota(frota: dict, nome_navio: str, linha: int, coluna: int, orientacao: str, tamanho: int) -> dict:
-    frota.setdefault(nome_navio, []).append(define_posicoes(linha, coluna, orientacao, tamanho))
+    frota.setdefault(nome_navio, []).append(
+        define_posicoes(linha, coluna, orientacao, tamanho))
 
     return frota
 
@@ -93,11 +97,13 @@ quantidade = {
 for navio, qnt in quantidade.items():
     count = 0
     while count < qnt:
-        print(f'Insira as informações referentes ao navio {navio} que possui tamanho {5 - qnt}')
+        print(
+            f'Insira as informações referentes ao navio {navio} que possui tamanho {5 - qnt}')
         linha = int(input('Linha: '))
         coluna = int(input('Coluna: '))
         if navio != 'submarino':
-            orientacao = int(input('Orientação - [1] Vertical [2] Horizontal: '))
+            orientacao = int(
+                input('Orientação - [1] Vertical [2] Horizontal: '))
             orientacao = 'vertical' if orientacao == 1 else 2
         else:
             orientacao = 1
@@ -107,7 +113,8 @@ for navio, qnt in quantidade.items():
         else:
             print('Esta posição não está válida!')
 
-posicoes = []
+jogadas_jogador = []
+jogadas_oponente = []
 frota_oponente = {
     'porta-aviões': [
         [[9, 1], [9, 2], [9, 3], [9, 4]]
@@ -140,8 +147,10 @@ while jogando:
         texto += '_______________________________      _______________________________\n'
 
         for linha in range(len(tabuleiro_jogador)):
-            jogador_info = '  '.join([str(item) for item in tabuleiro_jogador[linha]])
-            oponente_info = '  '.join([info if str(info) in 'X-' else '0' for info in tabuleiro_oponente[linha]])
+            jogador_info = '  '.join([str(item)
+                                     for item in tabuleiro_jogador[linha]])
+            oponente_info = '  '.join(
+                [info if str(info) in 'X-' else '0' for info in tabuleiro_oponente[linha]])
             texto += f'{linha}| {jogador_info}|     {linha}| {oponente_info}|\n'
         return texto
     print(monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente))
@@ -153,8 +162,9 @@ while jogando:
     while coluna > 9 or coluna < 0:
         print('Coluna inválida')
         coluna = int(input('Coluna: '))
-    while (linha, coluna) in posicoes:
-        print(f'A posição linha {linha} e coluna {coluna} já foi informada anteriormente!')
+    while (linha, coluna) in jogadas_jogador:
+        print(
+            f'A posição linha {linha} e coluna {coluna} já foi informada anteriormente!')
         linha = int(input('Linha: '))
         while linha > 9 or linha < 0:
             print('Linha inválida!')
@@ -163,8 +173,20 @@ while jogando:
         while coluna > 9 or coluna < 0:
             print('Coluna inválida')
             coluna = int(input('Coluna: '))
-    posicoes.append((linha, coluna))
+    jogadas_jogador.append((linha, coluna))
     tabuleiro_oponente = faz_jogada(tabuleiro_oponente, linha, coluna)
     if afundados(frota_oponente, tabuleiro_oponente) == 10:
         print('Parabéns! Você derrubou todos os navios do seu oponente!')
         jogando = False
+    else:
+        linha = randint(0, 9)
+        coluna = randint(0, 9)
+        while (linha, coluna) in jogadas_oponente:
+            linha = randint(0, 9)
+            coluna = randint(0, 9)
+        jogadas_oponente.append((linha, coluna))
+        print(f'Seu oponente está atacando na linha {linha} e coluna {coluna}')
+        faz_jogada(tabuleiro_jogador, linha, coluna)
+        if afundados(frota, tabuleiro_jogador) == 10:
+            print('Xi! O oponente derrubou toda a sua frota =(')
+            jogando = False
